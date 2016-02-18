@@ -35,5 +35,7 @@ int main() {
     MulBenchmark<float>(vct);
     MulBenchmark<half_float::half>(vct);
 
+    static_assert(sizeof(half_float::half) == 2, "right size");
+
     return 0;
 }
