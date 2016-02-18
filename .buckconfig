@@ -1,5 +1,5 @@
 [cpp]
-cppflags = -std=c++14
+cppflags = -std=c++14 -O2
 
 [cxx]
-cxxflags = -std=c++14
+cxxflags = -std=c++14 -O2

@@ -23,19 +23,39 @@ void MulBenchmark(const FloatVector& vct) {
         }
     }
     duration<float> diff = duration_cast<duration<float>>(high_resolution_clock::now() - begin);
-    cout << typeid(T).name() << " " << sum << " " << diff.count() << endl;
+    cout << "Mul: " << typeid(T).name() << " " << sum << " " << diff.count() << endl;
+}
+
+void InitVector(FloatVector& vct) {
+    for (auto& value: vct) {
+        value = static_cast<float>(rand())/RAND_MAX;
+    }
+}
+
+template<typename T>
+void ConversionBenchmark(const FloatVector& src, T& result) {
+    const auto begin = high_resolution_clock::now();
+    result.resize(src.size());
+    for (size_t i = 0; i < src.size(); ++i) {
+        result[i] = src[i];
+    }
+    duration<float> diff = duration_cast<duration<float>>(high_resolution_clock::now() - begin);
+    cout << "Conversion: " << typeid(T).name() << " " << diff.count() << endl;
 }
 
 int main() {
     FloatVector vct(10000);
-    for (auto& value: vct) {
-        value = static_cast<float>(rand())/RAND_MAX;
-    }
+    InitVector(vct);
 
     MulBenchmark<float>(vct);
     MulBenchmark<half_float::half>(vct);
 
-    static_assert(sizeof(half_float::half) == 2, "right size");
+    vct.resize(100000);
+    InitVector(vct);
+    vector<half_float::half> halfs;
+    ConversionBenchmark(vct, halfs);
+    vector<float> dummy;
+    ConversionBenchmark(vct, dummy);
 
     return 0;
 }
