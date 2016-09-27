@@ -7,6 +7,22 @@ project(half VERSION 1.1.0)
 
 add_library(half INTERFACE)
 
+if(ANDROID)
+  set(default_value OFF)
+else()
+  set(default_value ON)
+endif()
+
+option(HALF_ENABLE_CPP11_CMATH "Enable c++11 cmath" "${default_value}")
+
+if(HALF_ENABLE_CPP11_CMATH)
+  set(define_value 1)
+else()
+  set(define_value 0)
+endif()
+
+target_compile_definitions(half INTERFACE HALF_ENABLE_CPP11_CMATH=${define_value})
+
 ### Install ###
 set(generated_dir "${CMAKE_CURRENT_BINARY_DIR}/generated")
 
