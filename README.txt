@@ -1,10 +1,11 @@
 Notes
----------------
+-----
+
 IEEE 754-based half-precision floating point library forked from http://half.sourceforge.net/.
 
 
 HALF-PRECISION FLOATING-POINT LIBRARY (Version 2.2.0)
------------------------------------------------------
+=====================================================
 
 This is a C++ header-only library to provide an IEEE 754 conformant 16-bit 
 half-precision floating-point type along with corresponding arithmetic 
@@ -84,6 +85,7 @@ complete developer documentation from the library's only include file's doxygen
 comments, but this is more relevant to developers rather than mere users.
 
 BASIC USAGE
+-----------
 
 To make use of the library just include its only header file half.hpp, which 
 defines all half-precision functionality inside the 'half_float' namespace. The 
@@ -125,6 +127,7 @@ the library also defines the 'HUGE_VALH' constant and maybe the 'FP_FAST_FMAH'
 symbol.
 
 CONVERSIONS AND ROUNDING
+------------------------
 
 The half is explicitly constructible/convertible from a single-precision float 
 argument. Thus it is also explicitly constructible/convertible from any type 
@@ -190,6 +193,7 @@ rounding mode would.
     assert( half_cast<half,std::round_toward_infinity>( std::numeric_limits<double>::min() ) > 0.0_h );
 
 ACCURACY AND PERFORMANCE
+------------------------
 
 From version 2.0 onward the library is implemented without employing the 
 underlying floating-point implementation of the system (except for conversions, 
@@ -243,6 +247,7 @@ intrinsics for conversion without checking if they are available at runtime
 target platform before enabling this.
 
 EXCEPTION HANDLING
+------------------
 
 The half-precision implementation supports all 5 required floating-point 
 exceptions from the IEEE standard to indicate erroneous inputs or inexact 
