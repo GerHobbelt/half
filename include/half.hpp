@@ -2430,11 +2430,6 @@ namespace std
 		static HALF_CONSTEXPR half_float::half denorm_min() HALF_NOTHROW { return half_float::half(half_float::detail::binary, 0x0001); }
 	};
 
-	/// Overload `std::isfinite` to omit implicit float conversion
-    inline bool isfinite(const half_float::half& h) {
-        return half_float::isfinite(h);
-    }
-
 #if HALF_ENABLE_CPP11_HASH
 	/// Hash function for half-precision floats.
 	/// This is only defined if C++11 `std::hash` is supported and enabled.
@@ -4589,6 +4584,16 @@ namespace half_float
 			throw std::range_error(msg);
 	}
 	/// \}
+}
+
+
+/// Extensions to the C++ standard library.
+namespace std
+{
+	/// Overload `std::isfinite` to omit implicit float conversion
+	inline HALF_CONSTEXPR bool isfinite(half_float::half h) {
+		return half_float::isfinite(h);
+	}
 }
 
 
