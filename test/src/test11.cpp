@@ -101,6 +101,8 @@ public:
 		in.read(reinterpret_cast<char*>(&flags_), sizeof(flags_));
 	}
 
+#pragma warning(push)
+#pragma warning(disable: 4805) // warning C4805: '&': unsafe mix of type 'int' and type 'bool' in operation
 	half value() const
 	{
 		switch(std::numeric_limits<half>::round_style)
@@ -111,6 +113,7 @@ public:
 			default:								return value_;
 		}
 	}
+#pragma warning(pop)
 
 	int except(int flags = FE_ALL_EXCEPT) const { return static_cast<int>(flags_&flags); }
 
@@ -1026,6 +1029,8 @@ try
 		case std::round_toward_infinity: std::fesetround(FE_UPWARD); break;
 		case std::round_toward_neg_infinity: std::fesetround(FE_DOWNWARD); break;
 	#endif
+		default:
+		case std::round_indeterminate: break;// warning C4062: enumerator 'std::round_indeterminate' in switch of enum 'std::float_round_style' is not handled
 	}
 #endif
 /*
