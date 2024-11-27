@@ -138,3 +138,17 @@ void performance_test(std::ostream &out = std::cout, std::ostream *csv = nullptr
 	if( csv )
 		*csv << std::defaultfloat << std::setprecision(6);
 }
+
+
+#if defined(BUILD_MONOLITHIC)
+
+#include "monolithic_examples.h"
+
+extern "C"
+int half_performance_test_main(void)
+{
+	performance_test();
+	return 0;
+}
+
+#endif

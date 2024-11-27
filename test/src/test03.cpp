@@ -15,11 +15,20 @@
 // ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <half.hpp>
-#include <sys/time.h>
+#include <plf_nanotimer.hpp>
+
+#include <iostream>
+
+#include "monolithic_examples.h"
 
 using half_float::half;
 
-int main(int argc, char *argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main half_test03_main
+#endif
+
+extern "C"
+int main(void)
 {
 	half a(float(3.1415926)), b(float(-7)), c(float(0.3333333333));
     float aa(half(3.1415926)), bb(half(-7)),cc(half(0.3333333333)); 
@@ -35,9 +44,11 @@ int main(int argc, char *argv[])
     float* float_base = new float[NUM*128];
 
     int i = 0, j = 0;
-    struct  timeval t1,t2;
-    gettimeofday(&t1,NULL);
-    for(i=0; i<NUM; ++i)
+
+		plf::nanotimer t;
+		t.start();
+
+		for(i=0; i<NUM; ++i)
     {
         float t=0;
         for(j=0; j<128; ++j)
@@ -45,10 +56,11 @@ int main(int argc, char *argv[])
             t +=  half_query[j] * half_base[i*128 +j];
         }
     }
-    gettimeofday(&t2,NULL);
-    std::cout<< (t2.tv_sec - t1.tv_sec)*1000000 + (t2.tv_usec-t2.tv_usec) << std::endl;
+
+		t.stop();
+    std::cout<< t.get_elapsed_us() << std::endl;
     
-    gettimeofday(&t1,NULL);
+		t.start();
     for(i=0; i<NUM; ++i)
     {
         float t=0;
@@ -57,9 +69,8 @@ int main(int argc, char *argv[])
             t +=  float_query[j] * float_base[i*128 +j];
         }
     }
-    gettimeofday(&t2,NULL);
-    std::cout<< (t2.tv_sec - t1.tv_sec)*1000000 + (t2.tv_usec-t2.tv_usec) << std::endl;
+		t.stop();
+    std::cout<< t.get_elapsed_us() << std::endl;
 
-
-
+		return 0;
 }

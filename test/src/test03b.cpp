@@ -18,11 +18,20 @@
 
 #include <iostream>
 
+#include "monolithic_examples.h"
+
 using half_float::half;
 
 
-int main(int argc, char *argv[])
+#if defined(BUILD_MONOLITHIC)
+#define main half_test03b_main
+#endif
+
+extern "C"
+int main(void)
 {
 	half a(3.14159), b(-7), c = sin(a+b);
 	std::cout << c << ", " << ilogb(c) << '\n';
+
+	return 0;
 }
