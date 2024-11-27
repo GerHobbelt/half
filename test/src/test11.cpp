@@ -105,10 +105,10 @@ public:
 	{
 		switch(std::numeric_limits<half>::round_style)
 		{
-		case std::round_toward_zero:			return b2h(h2b(value_) - ((flags_>>6)&1));
-		case std::round_toward_infinity:		return b2h(h2b(value_) + ((flags_>>7) & !signbit(value_)) - ((flags_>>6) & signbit(value_)));
-		case std::round_toward_neg_infinity:	return b2h(h2b(value_) + ((flags_>>7) & signbit(value_)) - ((flags_>>6) & !signbit(value_)));
-		default:								return value_;
+			case std::round_toward_zero:			return b2h(h2b(value_)-((flags_>>6)&1));
+			case std::round_toward_infinity:		return b2h(h2b(value_)+((flags_>>7)&!signbit(value_))-((flags_>>6)&signbit(value_)));
+			case std::round_toward_neg_infinity:	return b2h(h2b(value_)+((flags_>>7)&signbit(value_))-((flags_>>6)&!signbit(value_)));
+			default:								return value_;
 		}
 	}
 
